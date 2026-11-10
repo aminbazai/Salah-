@@ -1,37 +1,64 @@
-# Salah — habit app direction study
+<div align="center">
 
-A minimal app for one job: **pray five times a day.**
+# 🌱 Salah
 
-This folder contains the first deliverable: a user flow and three working UI directions. Pick one direction, then the app gets built around it. The chosen direction — **Salah Garden** — now also exists as a native Android app in `android/`.
+### A minimal app for one job: pray five times a day.
 
-## Open it
+![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-3DDC84?logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-Jetpack%20Compose-7F52FF?logo=kotlin&logoColor=white)
+![UI](https://img.shields.io/badge/UI-Material%203-4285F4)
+![SDK](https://img.shields.io/badge/minSdk%2026%20%C2%B7%20targetSdk%2035-informational)
+![JDK](https://img.shields.io/badge/JDK-17-orange)
 
-Start with **`index.html`** — the direction picker. It links to all three live prototypes.
+**No feed. No coins. No ads. Just: did you pray today, and will you come back for the next one?**
 
-No build step or server is required. Open the HTML files directly in a browser. Google Fonts load from a CDN, so an internet connection gives the intended type; offline, the prototypes fall back to system fonts.
+</div>
 
-| File | What it is |
-| --- | --- |
-| `index.html` | Gallery comparing the three directions and linking everything |
-| `user-flow.html` | The MVP flow: first run, daily loop, missed loop, notifications, scope |
-| `ui-1-noor-nights.html` | Direction 01 — calm night-sky storybook |
-| `ui-2-salah-garden.html` | Direction 02 — daylight paper-cut garden |
-| `ui-3-salah-quest.html` | Direction 03 — bold comic mission control |
-| `previews/` | Today-screen captures used by the gallery |
+---
 
-Each prototype has four screens: **Location**, **Today**, **Missed**, **Week**. Use the left rail (desktop) or tab bar to move through them. Add `?screen=setup`, `?screen=missed`, or `?screen=week` to a prototype URL to open a specific screen.
+## Table of Contents
 
-## Native Android app
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Design Directions](#design-directions)
+- [Native Android App: Salah Garden](#native-android-app-salah-garden)
+  - [Requirements](#requirements)
+  - [Build and Run](#build-and-run)
+  - [Run the Tests](#run-the-tests)
+  - [Demo Mode](#demo-mode)
+- [Features](#features)
+- [Shared Product Spine](#shared-product-spine)
+- [Project Structure](#project-structure)
+- [Source Map](#source-map)
+- [Rive Integration Guide](#rive-integration-guide)
+- [Roadmap](#roadmap)
+- [Out of Scope](#out-of-scope)
+- [Success Metric](#success-metric)
 
-Salah Garden is also built as a native Android app in **`android/`**, using Kotlin and Jetpack Compose Material 3. It is the real daily loop, not a mockup: prayer times are calculated on device, logs and streaks persist, and reminders are scheduled locally.
+---
 
-### Requirements
+## Overview
 
-- JDK 17 (the build is verified with `C:\Program Files\Java\jdk-17.0.0.1`)
-- Android SDK 35 (`compileSdk` 35, `minSdk` 26, `targetSdk` 35)
-- A device or emulator on Android 8.0+
+This repository holds the **first deliverable** of the Salah project: a user flow and three working UI directions for a single-purpose prayer habit app. One direction, **Salah Garden**, has been chosen and is now built as a **real native Android app** (Kotlin, Jetpack Compose, Material 3).
 
-### Build and run
+| Deliverable | Status |
+|---|---|
+| User flow (first run, daily loop, missed loop, notifications, scope) | ✅ Done |
+| Three live HTML prototypes | ✅ Done |
+| Native Android app (Salah Garden) | ✅ Built and working |
+| Rive animations | 🔜 Documented swap point |
+
+---
+
+## Quick Start
+
+### Explore the design directions
+
+No build step or server is required. Open `index.html` directly in a browser.
+
+> Google Fonts load from a CDN. With internet you get the intended typography; offline, the prototypes fall back to system fonts.
+
+### Build the Android app
 
 ```powershell
 cd android
@@ -39,14 +66,94 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-17.0.0.1'
 .\gradlew.bat :app:assembleDebug
 ```
 
-The APK lands at `android/app/build/outputs/apk/debug/app-debug.apk`.
+Then install it:
 
-```powershell
+```bash
 adb install -r android/app/build/outputs/apk/debug/app-debug.apk
 adb shell am start -n com.salahgarden.app/.MainActivity
 ```
 
-Run the unit tests with:
+---
+
+## Design Directions
+
+Start with **`index.html`**, the direction picker, which links to all three live prototypes.
+
+| File | Description |
+|---|---|
+| `index.html` | Gallery comparing the three directions |
+| `user-flow.html` | The MVP flow: first run, daily loop, missed loop, notifications, scope |
+| `ui-1-noor-nights.html` | Direction 01: calm night-sky storybook |
+| `ui-2-salah-garden.html` | Direction 02: daylight paper-cut garden |
+| `ui-3-salah-quest.html` | Direction 03: bold comic mission control |
+| `previews/` | Today-screen captures used by the gallery |
+
+Each prototype has **four screens**: Location, Today, Missed, Week. Use the left rail (desktop) or the tab bar to move between them. To open a specific screen, add a query parameter:
+
+```
+?screen=setup   ?screen=missed   ?screen=week
+```
+
+### The three directions at a glance
+
+| | 01 · Noor Nights | 02 · Salah Garden ✅ *chosen* | 03 · Salah Quest |
+|---|---|---|---|
+| **Concept** | Calm storybook night | Daylight paper-cut garden | Comic mission control |
+| **Metaphor** | Five stars light up along a path; a lantern mascot named **Noor** keeps company | Five plants grow as prayers are watered; **Bud** the sprout responds to the day | Five missions and fuel cells; **Sami** the rocket waits on the launch pad |
+| **Missed prayer** | Reads like a quiet note, not a failure | Offers water rather than guilt | Mission can still be completed |
+| **Feel** | Bedtime, warmth, soft gold on deep indigo | Tactile, sunny, handmade paper layers | Bold outlines, blue and yellow, Duolingo-style momentum |
+| **Best for** | Winding down, a gentle nightly ritual | Younger kids, a concrete growth metaphor | Energy, momentum, older kids who like missions |
+
+> The choice is about **look and feel, not features.** Every direction shares the same spine (see [Shared Product Spine](#shared-product-spine)).
+
+### Prototype demo behaviour
+
+- The clock is fixed at **17:30**: Fajr and Dhuhr logged, Asr current, Maghrib next.
+- Logging Asr updates the ring / path / garden / fuel cells and the week total, and opens a celebration.
+- The Missed screen's **"Pray now"** marks Asr as made up, keeps the streak, and returns to Today.
+- City changes update labels and times immediately.
+- There is **no persistence**: reloading resets the demo.
+- The GPS button *simulates* a found location (London); it does not request browser geolocation.
+- Motion is CSS/SVG. No `.riv` files are included.
+- Prayer times in the prototypes are **illustrative, not calculated**.
+- Demo cities: London, Manchester, Makkah, Istanbul, New York, Kuala Lumpur (MWL, Umm al-Qura, Diyanet, ISNA, JAKIM).
+
+---
+
+## Native Android App: Salah Garden
+
+The real daily loop, not a mockup. Prayer times are calculated on device, logs and streaks persist, and reminders are scheduled locally.
+
+### Requirements
+
+| Requirement | Version |
+|---|---|
+| JDK | 17 (build verified with `C:\Program Files\Java\jdk-17.0.0.1`) |
+| Android SDK | 35 (`compileSdk` 35, `minSdk` 26, `targetSdk` 35) |
+| Device / emulator | Android 8.0+ |
+
+### Build and Run
+
+```powershell
+cd android
+$env:JAVA_HOME='C:\Program Files\Java\jdk-17.0.0.1'
+.\gradlew.bat :app:assembleDebug
+```
+
+The APK is written to:
+
+```
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+Install and launch:
+
+```bash
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n com.salahgarden.app/.MainActivity
+```
+
+### Run the Tests
 
 ```powershell
 cd android
@@ -54,132 +161,214 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-17.0.0.1'
 .\gradlew.bat :app:testDebugUnitTest
 ```
 
-### Demo mode
+### Demo Mode
 
-Debug builds accept a fixed-clock demo so every screen opens on the same moment. It uses separate preferences and never touches real logs. Demo mode starts past the first-run onboarding (the flag is pre-set), so launch it to see the garden directly.
+Debug builds accept a **fixed-clock demo** so every screen opens on the same moment. It uses separate preferences and **never touches real logs**. Demo mode starts past first-run onboarding, so you land directly in the garden.
 
-```powershell
+```bash
 adb shell am start -n com.salahgarden.app/.MainActivity --ez demo true
 ```
 
-To see the first-run flow instead, clear the app's data first:
+**Demo clock:** Monday 9 Nov 2026, 17:30 London time. Fajr and Dhuhr are logged, Asr is current, there are six prior complete days, and the best run is 11.
 
-```powershell
+**Jump straight to a screen:**
+
+```bash
+adb shell am start -n com.salahgarden.app/.MainActivity --ez demo true --es screen missed
+```
+
+Available values: `setup` · `missed` · `week` · `history` · `guide` · `today`
+
+**See the first-run flow instead** by clearing app data first:
+
+```bash
 adb shell pm clear com.salahgarden.app
 adb shell am start -n com.salahgarden.app/.MainActivity
 ```
 
-Jump straight to a screen with `--es screen setup|missed|week|history|guide|today`:
+> Reminders can be toggled and previewed from Setup using **"Preview a gentle nudge"**.
 
-```powershell
-adb shell am start -n com.salahgarden.app/.MainActivity --ez demo true --es screen missed
+---
+
+## Features
+
+### 🕌 Prayer Times
+- Calculated **on device** using [adhan 1.2.1](https://github.com/batoulapps/adhan-java), with no network required.
+- Shafi Asr, twilight-angle high-latitude rule, and per-city methods: **MWL, Umm al-Qura, Diyanet, ISNA, JAKIM**.
+- Unit tests verify London, Makkah, New York, and Kuala Lumpur against Aladhan reference values.
+
+### 📍 Location
+- Platform `LocationManager` + `Geocoder` with runtime permissions.
+- A six-city picker is the fallback when location is unavailable or declined.
+
+### 💾 Persistence
+- `SharedPreferences` + JSON day logs.
+- Stores prayers, make-up flags, city, reminder preference, and streaks.
+
+### 🔔 Reminders
+- `AlarmManager` schedules an **adhan nudge** plus a **20-minute pre-nudge** for each prayer, three days ahead.
+- Dedicated notification channel, boot and time-change rescheduling, and **quiet after Isha**.
+
+### 🌿 The Daily Loop
+- **One-tap logging** of the current prayer, with a countdown.
+- **Make-up prayer** counts toward today.
+- **Shame-free missed debrief** showing one of **ten authentic ahadith about salah**, with collection, number, and grading visible. The hadith is chosen by date and prayer so the same check-in stays stable, while "Another hadith" browses the rest.
+- **7-day flowers**, weekly totals, current streak, and best run.
+
+### 📜 Full History
+- Every stored day is kept, and nothing is pruned.
+- The History tab lists all logged days newest-first, grouped by month, with per-day counts and make-up / missed markers.
+- Lifetime totals: prayers watered, perfect days, current streak.
+
+### 👋 First-Run Onboarding
+- Three steps: your **name**, **notifications**, **location**, each with its system dialog.
+- Nothing is required: both permissions can be skipped and changed later.
+- The name appears in the Today greeting.
+
+### 📖 Learn Salah Guide
+- A separate **15-lesson beginner guide**, from zero and in order.
+- Bilingual content, a step-by-step prayer walkthrough engine, and recitation cards (Arabic / transliteration / meaning, each layer toggleable).
+- Quizzes and local progress tracking.
+- See [`android/GUIDE_CONTENT_README.md`](android/GUIDE_CONTENT_README.md) to edit lessons and add audio or illustrations.
+
+---
+
+## Shared Product Spine
+
+Every direction, prototype and native, is built on the same foundation.
+
+1. **Location → times.** City search or a GPS shortcut selects the calculation method and the five prayer windows.
+2. **One-tap logging.** The current prayer has a countdown and one obvious "I prayed" button.
+3. **Shame-free missed flow.** A closed window opens a debrief with one reason why salah matters, plus an option to pray now. A make-up prayer counts toward today.
+4. **A quiet week view.** Seven days, five marks per day, the current streak, and the next window. No charts, coins, shop, feed, or ads.
+5. **Notification policy.** One nudge at each adhan, a second 20 minutes before, quiet after Isha. In-app check-ins remain if reminders are off.
+6. **Rive slots.** Idle, prayed, missed, and streak-up moments are documented in each prototype's "Rive motion plan" panel.
+
+---
+
+## Project Structure
+
+```
+.
+├── index.html                  # Direction picker
+├── user-flow.html              # MVP user flow
+├── ui-1-noor-nights.html       # Direction 01
+├── ui-2-salah-garden.html      # Direction 02 (chosen)
+├── ui-3-salah-quest.html       # Direction 03
+├── previews/                   # Today-screen captures for the gallery
+└── android/                    # Native Android app (Salah Garden)
+    ├── app/
+    ├── screenshots/            # Emulator captures used for verification
+    └── GUIDE_CONTENT_README.md # How to edit the Learn Salah content
 ```
 
-The demo clock is **Mon 9 Nov 2026, 17:30** in London: Fajr and Dhuhr logged, Asr current, six prior complete days, best run 11. Reminders can be toggled and previewed from Setup ("Preview a gentle nudge").
+---
 
-### What is wired
+## Source Map
 
-- **Prayer times:** [`adhan`](https://github.com/batoulapps/adhan-java) 1.2.1, calculated on device. Shafi Asr, twilight-angle high-latitude rule, and per-city methods (MWL, Umm al-Qura, Diyanet, ISNA, JAKIM). Unit tests check London, Makkah, New York, and Kuala Lumpur against Aladhan reference values.
-- **Location:** platform `LocationManager` + `Geocoder` with runtime permissions; a six-city picker is the fallback.
-- **Persistence:** `SharedPreferences` + JSON day logs for prayers, make-up flags, city, reminders, and streaks.
-- **Reminders:** `AlarmManager` schedules an adhan nudge plus a 20-minute pre-nudge for each prayer, three days ahead, with a notification channel, boot/time-change rescheduling, and quiet after Isha.
-- **Loop:** one-tap logging, make-up for today, a shame-free missed debrief that shows one of ten authentic ahadith about salah (with collection, number, and grading), 7-day flowers, weekly totals, streak and best run.
-- **Full history:** every stored day is kept — nothing is pruned. The History tab lists all logged days newest-first, grouped by month, with per-day counts, make-up and missed markers, plus lifetime totals (prayers watered, perfect days, current streak).
-- **First-run onboarding:** three steps — your name, then notifications, then location — with the system dialogs for each. Nothing is required; both permissions can be skipped and changed later. The name shows in the Today greeting.
-- **Salah guide:** the **Learn Salah** tab is a separate 15-lesson beginner guide — from zero, in order — with bilingual content, a step-by-step prayer walkthrough engine, recitation cards (Arabic / transliteration / meaning, each layer toggleable), quizzes, and local progress. See `android/GUIDE_CONTENT_README.md` for how to edit lessons and add audio or illustrations.
+Paths below are relative to `android/app/src/main/java/com/salahgarden/app/`.
 
-The hadith shown after a missed prayer is chosen from the bank by date and prayer, so different prayers and days rotate through the collection while the same check-in stays stable. "Another hadith" browses the rest. Each entry keeps its reference and grading visible; the bank lives in `ui/GardenFormat.kt` and is covered by `HadithBankTest`.
-
-### Source map
+### Core
 
 | Path | Responsibility |
-| --- | --- |
-| `android/app/src/main/java/com/salahgarden/app/MainActivity.kt` | Edge-to-edge host, permissions, demo/screen extras |
-| `.../GardenViewModel.kt` | Derived state, prayer windows, logging, setup, reminders |
-| `.../data/PrayerTimeProvider.kt` | Adhan calculation, methods, formatting |
-| `.../data/GardenRepository.kt` | Persistence, streaks, week logs, demo seed |
-| `.../notify/` | Channel, reminder builder, alarms, receivers |
-| `.../ui/TodayScreen.kt` | Hero, plant row, logging, gentle nudges |
-| `.../ui/SetupScreen.kt` | City search, GPS, reminders, save |
-| `.../ui/MissedScreen.kt` | Check-in, hadith card, make-up action |
-| `.../ui/WeekScreen.kt` | Streak, seven flowers, totals, next watering |
-| `.../ui/HistoryScreen.kt` | Full prayer history: lifetime stats and every stored day, grouped by month |
-| `.../ui/OnboardingScreen.kt` | First-run: name, notification permission, location permission |
-| `.../learn/` | Learn Salah content + data model + progress repository |
-| `.../ui/LearnSalahScreen.kt` | Learn Salah home: progress ring, shortcuts, lesson list |
-| `.../ui/LessonDetailScreen.kt` | Lesson reader: every block type, recitation cards, quiz |
-| `.../ui/GardenFormat.kt` | Formatting helpers, the salah hadith bank, and per-missed-prayer rotation |
-| `.../ui/GardenArt.kt` | All paper-cut artwork and Bud |
-| `.../ui/GardenComponents.kt` | Cards, buttons, switch, tabs |
-| `android/screenshots/` | Emulator captures used for verification |
+|---|---|
+| `MainActivity.kt` | Edge-to-edge host, permissions, demo / screen extras |
+| `GardenViewModel.kt` | Derived state, prayer windows, logging, setup, reminders |
 
-### Rive swap point
+### Data
 
-No `.riv` assets are included, so all motion is native Compose (animated plant states, Bud's idle wobble, petal rain, celebration scale/fade). To move to Rive:
+| Path | Responsibility |
+|---|---|
+| `data/PrayerTimeProvider.kt` | Adhan calculation, methods, formatting |
+| `data/GardenRepository.kt` | Persistence, streaks, week logs, demo seed |
+
+### Notifications
+
+| Path | Responsibility |
+|---|---|
+| `notify/` | Channel, reminder builder, alarms, receivers |
+
+### Screens
+
+| Path | Responsibility |
+|---|---|
+| `ui/TodayScreen.kt` | Hero, plant row, logging, gentle nudges |
+| `ui/SetupScreen.kt` | City search, GPS, reminders, save |
+| `ui/MissedScreen.kt` | Check-in, hadith card, make-up action |
+| `ui/WeekScreen.kt` | Streak, seven flowers, totals, next watering |
+| `ui/HistoryScreen.kt` | Lifetime stats and every stored day, grouped by month |
+| `ui/OnboardingScreen.kt` | First run: name, notification permission, location permission |
+| `ui/LearnSalahScreen.kt` | Learn Salah home: progress ring, shortcuts, lesson list |
+| `ui/LessonDetailScreen.kt` | Lesson reader: every block type, recitation cards, quiz |
+
+### Design System and Content
+
+| Path | Responsibility |
+|---|---|
+| `ui/GardenFormat.kt` | Formatting helpers, the salah hadith bank, per-missed-prayer rotation |
+| `ui/GardenArt.kt` | All paper-cut artwork and Bud |
+| `ui/GardenComponents.kt` | Cards, buttons, switch, tabs |
+| `learn/` | Learn Salah content, data model, and progress repository |
+
+> The hadith bank lives in `ui/GardenFormat.kt` and is covered by `HadithBankTest`.
+
+---
+
+## Rive Integration Guide
+
+No `.riv` assets are included yet, so all motion is **native Compose**: animated plant states, Bud's idle wobble, petal rain, and celebration scale/fade. The swap to Rive is isolated and documented.
+
+**Steps**
 
 1. Add `app.rive:rive-android` (plus the Compose integration from the Rive docs) to `android/app/build.gradle.kts`.
 2. Drop the state machine into `app/src/main/res/raw/`, for example `bud.riv`.
-3. Replace the drawing composables in `ui/GardenArt.kt` — `BudSprout`, `PlantArt`, `WiltedPlant`, `WeekFlower` — with `RiveAnimation` and bind the state machine inputs from the existing `GardenUiState`.
-4. Drive inputs from `GardenUiState`: `log.isLogged(currentPrayer)` → `watered`, `madeUp` → `made_up`, `celebration != null` → `prayed`, `streak` increase → `streak_up`, and `state.missedPrayer` → `missed`.
-5. Replace `PetalRain` in `ui/GardenApp.kt` with the Rive celebration, or keep it as the overlay while Rive handles the hero. The rest of the screens and the entire data layer stay unchanged.
+3. In `ui/GardenArt.kt`, replace the drawing composables `BudSprout`, `PlantArt`, `WiltedPlant`, and `WeekFlower` with `RiveAnimation`, and bind the state machine inputs from the existing `GardenUiState`.
+4. Replace `PetalRain` in `ui/GardenApp.kt` with the Rive celebration, or keep it as an overlay while Rive handles the hero.
 
-## The three directions
+**State machine inputs**
 
-### 01 · Noor Nights
-A calm storybook night. Five stars light up along a path as prayers are logged; a lantern mascot named Noor keeps company. The missed screen reads like a quiet note, not a failure state.
-**Feels like:** bedtime, warmth, soft gold on deep indigo.
-**Best for:** winding down and a gentle nightly ritual.
+| App state | Rive input |
+|---|---|
+| `log.isLogged(currentPrayer)` | `watered` |
+| `madeUp` | `made_up` |
+| `celebration != null` | `prayed` |
+| Streak increases | `streak_up` |
+| `state.missedPrayer` | `missed` |
 
-### 02 · Salah Garden
-A daylight paper-cut garden. Five plants grow as prayers are watered; Bud the sprout responds to the day. Missed salah offers water rather than guilt, and a make-up prayer still counts.
-**Feels like:** tactile, sunny, hand-made paper layers.
-**Best for:** younger kids and a concrete growth metaphor.
+The rest of the screens and the entire data layer stay unchanged.
 
-### 03 · Salah Quest
-A comic mission-control panel. Five missions and five fuel cells; Sami the rocket waits on the launch pad. Logging a prayer is a mission complete with confetti and a stamp.
-**Feels like:** bold outlines, blue and yellow, Duolingo-style momentum.
-**Best for:** energy, momentum, and older kids who like missions.
+---
 
-## What all three share
+## Roadmap
 
-The choice is about look and feel, not features. Every direction includes the same spine:
+Status of the original "before this becomes the real app" checklist:
 
-- **Location → times.** City search or a GPS shortcut selects the calculation method and the five prayer windows.
-- **One-tap logging.** The current prayer has a countdown and one obvious "I prayed" button.
-- **Shame-free missed flow.** A closed window opens a debrief with one reason why salah matters, plus an option to pray now. A make-up prayer counts toward today.
-- **A quiet week view.** Seven days, five marks per day, the current streak, and the next window. No charts, coins, shop, feed, or ads.
-- **Notification policy.** One nudge at each adhan, a second 20 minutes before, quiet after Isha. In-app check-ins remain if reminders are off.
-- **Rive slots.** Idle, prayed, missed, and streak-up moments are documented in each prototype's "Rive motion plan" panel.
+| # | Item | Status | Notes |
+|---|---|:---:|---|
+| 1 | Pick a direction | ✅ | Salah Garden |
+| 2 | Real prayer times | ✅ | Calculated on device via adhan instead of the Aladhan HTTP API |
+| 3 | Persist the day | ✅ | `SharedPreferences` + JSON logs. An account is only needed for cross-device sync |
+| 4 | Notifications | ✅ | Adhan + 20-minute pre-nudge, quiet after Isha, in-app fallback |
+| 5 | Rive | 🔜 | See [Rive Integration Guide](#rive-integration-guide) |
+| 6 | Window logic | 🔄 | Finalize handling of missed prayers, travel, and make-up counts in the streak rules |
+| 7 | Accessibility pass | 🔄 | Focus states, reduced motion, screen-reader labels for prayer status, 44px touch targets. Verify on real devices |
 
-Demo city data covers London, Manchester, Makkah, Istanbul, New York, and Kuala Lumpur with MWL, Umm al-Qura, Diyanet, ISNA, and JAKIM methods. Prayer times are illustrative, not calculated.
+---
 
-## Demo behaviour
+## Out of Scope
 
-- The clock is fixed at **17:30** so every prototype opens on the same moment: Fajr and Dhuhr logged, Asr current, Maghrib next.
-- Logging Asr updates the ring/path/garden/fuel cells, the week total, and opens the celebration.
-- The missed screen's "Pray now" marks Asr as made up, keeps the streak, and returns to Today.
-- City changes update labels and times immediately. There is no persistence: reloading resets the demo.
-- The GPS button simulates a found location (London); it does not request browser geolocation.
-- Motion is CSS/SVG for now. No `.riv` files are included.
+These are deliberately excluded to keep the app focused.
 
-## Before this becomes the real app
+- ❌ Social feed, leaderboards, or sharing
+- ❌ Coins, shop, loot boxes, or extra currencies
+- ❌ Ads or upsells
+- ❌ Long content libraries *(beyond the single beginner Learn Salah guide)*
+- ❌ More than five prayers or extra habit tracking
 
-1. **Pick a direction.** Everything else is independent of the visual choice.
-2. **Real prayer times.** Integrate the [Aladhan API](https://aladhan.com/prayer-times-api): latitude/longitude or city, date, and calculation method. Cache the day's times and handle timezone/DST explicitly.
-3. **Persist the day.** Start with local storage (logged prayers, make-up flags, city, reminder preference, streak). Add an account only when cross-device sync is actually needed.
-4. **Notifications.** Local notifications for the adhan and the 20-minute pre-nudge; respect the "quiet after Isha" rule and the user's toggle. Keep an in-app fallback.
-5. **Rive.** Build the idle, prayed, missed, and streak-up state machines. Trigger `prayed` on log, `missed` when a window closes, and `streak_up` only when the day completes.
-6. **Window logic.** Decide the exact handling of missed prayers, travel, and make-up counts before writing the streak rules. The demo uses a simple "make-up counts today" rule.
-7. **Accessibility pass.** Focus states, reduced motion, screen-reader labels for prayer status, and 44px touch targets are partially covered in the prototypes; verify with real devices.
+---
 
-The native app in `android/` already implements direction 02 and items 1–4 (on-device adhan calculation instead of the Aladhan HTTP API). Item 5 is the Rive swap point documented above.
+## Success Metric
 
-## Deliberately out of scope
+> **Did the person pray today, and will they come back for the next one?**
 
-- Social feed, leaderboards, or sharing
-- Coins, shop, loot boxes, or extra currencies
-- Ads or upsells
-- Long lessons, quizzes, or content libraries
-- More than five prayers or extra habit tracking
-
-The only success metric that matters: **did the person pray today, and will they come back for the next one?**
+Everything in this project is measured against that single question.
